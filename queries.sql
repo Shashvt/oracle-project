@@ -1,9 +1,23 @@
+DROP TABLE standings CASCADE CONSTRAINTS;
+DROP TABLE race CASCADE CONSTRAINTS;
+DROP TABLE circuit CASCADE CONSTRAINTS;
+DROP TABLE team_principal CASCADE CONSTRAINTS;
+DROP TABLE player CASCADE CONSTRAINTS;
+DROP TABLE team CASCADE CONSTRAINTS;
+
+-- TABLE TEAM
+
+
 CREATE TABLE team (
 Team_id INT PRIMARY KEY,
 Team_name VARCHAR(50),
 Team_country VARCHAR(50),
 Season_points INT
 );
+
+-- TABLE PLAYER 
+
+
 CREATE TABLE player (
 FIA_Super_License_no INT PRIMARY KEY,
 First_name VARCHAR(50),
@@ -19,6 +33,10 @@ Contract_upto INT,
 CONSTRAINT fk_player_Team_id FOREIGN KEY (Team_id)
 REFERENCES team (Team_id)
 );
+
+-- TABLE TEAM PRINCIPAL
+
+
 CREATE TABLE team_principal (
 T_id INT PRIMARY KEY,
 Nationality VARCHAR(50),
@@ -31,11 +49,19 @@ Salary NUMBER(12,2),
 CONSTRAINT fk_Team_Principal_Team_id FOREIGN KEY (Team_id)
 REFERENCES team (Team_id)
 );
+
+-- TABLE CIRCUIT
+
+
 CREATE TABLE circuit (
 Circuit_id INT PRIMARY KEY,
 Circuit_name VARCHAR(50),
 City VARCHAR(50)
 );
+
+-- TABLE RACE 
+
+
 CREATE TABLE race (
 Race_id INT PRIMARY KEY,
 Circuit_id INT,
@@ -44,6 +70,9 @@ Race_distance NUMBER(6,2),
 CONSTRAINT fk_race_Circuit_id FOREIGN KEY (Circuit_id)
 REFERENCES circuit (Circuit_id)
 );
+
+-- TABLE STANDINGS
+
 CREATE TABLE standings (
 Player_points INT DEFAULT 0,
 Player_id INT,
@@ -54,6 +83,12 @@ CONSTRAINT fk_standings_Player_id FOREIGN KEY (Player_id)
 REFERENCES player (FIA_Super_License_no),
 CONSTRAINT ck_player_race_composite_key PRIMARY KEY (Player_id, Race_id)
 );
+
+
+
+-- TABLE CREATION DONE 
+
+
 
 Insert into Team (team_name, team_id, team_country, season_points) values
 ('Oracle Red Bull Racing', 003, 'United Kingdom', 195);
@@ -75,6 +110,10 @@ Insert into Team (team_name, team_id, team_country, season_points) values
 ('BWT Alpine F1', 062, 'United Kingdom', 0);
 Insert into Team (team_name, team_id, team_country, season_points) values
 ('Stake F1 Team Kick Sauber', 095, 'Switzerland', 0);
+
+-- TEAM TABLE INSTERTION DONE 
+
+
 Insert into player (FIA_SUPER_LICENSE_NO , FIRST_NAME , MIDDLE_NAME , LAST_NAME , NATIONALITY , DOB ,
 TEAM_ID , SEASON_POINT , YEAR_OF_JOINING , CONTRACT_VALUE , CONTRACT_UPTO)
 values
@@ -161,6 +200,12 @@ Insert into player (FIA_SUPER_LICENSE_NO, FIRST_NAME, MIDDLE_NAME, LAST_NAME, NA
 TEAM_ID, SEASON_POINT, YEAR_OF_JOINING, CONTRACT_VALUE, CONTRACT_UPTO)
 values
 (9191, 'Guanyu', '', 'Zhou', 'China', TO_DATE('1999-05-30', 'YYYY-MM-DD'), 95, 0, 2022, 2000000, 2024);
+
+
+-- INSERTION DONE IN TEAM PLAYERSS
+
+
+
 Insert into Team_Principal(T_ID, NATIONALITY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, TEAM_ID,
 YEAR_OF_JOINING, SALARY) values
 (320, 'United Kingdom', 'Christian', ' Edward Johnston', 'Horner', 3, 2005, 10000000);
@@ -191,6 +236,12 @@ YEAR_OF_JOINING, SALARY) values
 Insert into Team_Principal(T_ID, NATIONALITY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, TEAM_ID,
 YEAR_OF_JOINING, SALARY) values
 (892, 'Italy', 'Alessandro', 'Alunni', 'Bravi', 3, 2023, 800000);
+
+
+
+-- INSERTIOIN INTO TEAM PRINCIPAL DONEEE
+
+
 Insert into Circuit (circuit_id, Circuit_name, city) values (1, 'Bahrain International Circuit', 'Bahrain');
 Insert into Circuit (circuit_id, Circuit_name, city) values (2, 'JEDDAH CORNICHE CIRCUIT', 'Saudi Arabia');
 Insert into Circuit (circuit_id, Circuit_name, city) values (3, 'MELBOURNE GRAND PRIX CIRCUIT', 'Australia');
@@ -215,6 +266,12 @@ Insert into Circuit (circuit_id, Circuit_name, city) values (21, 'AUTÓDROMO JOS
 Insert into Circuit (circuit_id, Circuit_name, city) values (22, 'LAS VEGAS STRIP CIRCUIT', 'Las Vegas');
 Insert into Circuit (circuit_id, Circuit_name, city) values (23, 'LUSAIL INTERNATIONAL CIRCUIT', 'Qatar');
 Insert into Circuit (circuit_id, Circuit_name, city) values (24, 'YAS MARINA CIRCUIT', 'Abu Dhabi');
+
+
+
+-- INSERTION INTO TEAM CIRCUIT DONEE
+
+
 Insert into Race(CIRCUIT_ID, RACE_ID, RACE_DATE, RACE_DISTANCE) values (1, 981, TO_DATE('2024-02-29', 'YYYY-
 MM-DD'), 308.24);
 Insert into Race(CIRCUIT_ID, RACE_ID, RACE_DATE, RACE_DISTANCE) values (2, 982, TO_DATE('2024-03-09', 'YYYY-
@@ -263,6 +320,15 @@ Insert into Race(CIRCUIT_ID, RACE_ID, RACE_DATE, RACE_DISTANCE) values (23, 1003
 'YYYY-MM-DD'), 308.61);
 Insert into Race(CIRCUIT_ID, RACE_ID, RACE_DATE, RACE_DISTANCE) values (24, 1004, TO_DATE('2024-12-08',
 'YYYY-MM-DD'), 306.18);
+
+
+
+-- INSERTION INTO RACE DONEE
+
+
+
+
+
 Insert into standings(PLAYER_POINTS, PLAYER_ID, RACE_ID) values (25, 8568, 985);
 Insert into standings(PLAYER_POINTS, PLAYER_ID, RACE_ID) values (18, 9789, 985);
 Insert into standings(PLAYER_POINTS, PLAYER_ID, RACE_ID) values (15, 6234, 985);
@@ -284,6 +350,7 @@ Insert into standings(PLAYER_POINTS, PLAYER_ID, RACE_ID) values (0, 7682, 985);
 Insert into standings(PLAYER_POINTS, PLAYER_ID, RACE_ID) values (0, 9890, 985);
 Insert into standings(PLAYER_POINTS, PLAYER_ID, RACE_ID) values (0, 8367, 985);
 
+-- INSERTION INTO STANDINGS DONEE
 
 CREATE OR REPLACE PROCEDURE TeamNAME (
     T IN TEAM.TEAM_ID%TYPE
@@ -299,7 +366,9 @@ BEGIN
 END;
 /
 
-
+BEGIN
+  TeamNAME(79);
+END;
 
 CREATE OR REPLACE PROCEDURE PlayerName(P_ID IN NUMBER) AS
 player_name VARCHAR2(100);
@@ -312,7 +381,10 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Player Name for ' || P_ID || ': ' || player_name);
 END;
 /
-
+--This procedure retrieves full player name using ID
+BEGIN
+  PlayerName(5635);
+END;
 
 CREATE OR REPLACE PROCEDURE POINTS(A IN INT, B IN INT) IS
 n INT;
@@ -328,6 +400,28 @@ BEGIN
 END;
 /
 
+-- This procedure dynamically updates the player's total season points 
+--by extracting race-wise points from the standings table 
+--and adding them to the existing value.
+
+
+SELECT season_point 
+FROM player 
+WHERE FIA_SUPER_LICENSE_NO = 8568;
+
+-- before 
+
+BEGIN
+  POINTS(8568, 985);
+END;
+
+-- after 
+
+SELECT season_point FROM player WHERE FIA_SUPER_LICENSE_NO = 8568;
+
+
+--This uses JOIN between team and team_principal
+-- to fetch manager name
 
 CREATE OR REPLACE PROCEDURE get_name_team(T_Name IN VARCHAR2) AS
 principal_name VARCHAR2(100);
@@ -346,6 +440,10 @@ EXCEPTION
 END;
 /
 
+-- procedure get team name
+ BEGIN
+  get_name_team('Ferrari');
+END;
 
 CREATE OR REPLACE FUNCTION matchWon RETURN VARCHAR2 IS
 won VARCHAR2(50);
@@ -358,6 +456,14 @@ BEGIN
     RETURN won;
 END;
 /
+
+--This function returns the team 
+--with maximum season points using a subquery.
+
+BEGIN
+  DBMS_OUTPUT.PUT_LINE(matchWon());
+END;
+
 
 CREATE OR REPLACE FUNCTION Max_Salary(n IN INT) RETURN NUMBER IS
 x NUMBER;
@@ -373,6 +479,17 @@ BEGIN
     RETURN x;
 END;
 /
+--(Player max salary)
+
+BEGIN
+  DBMS_OUTPUT.PUT_LINE(Max_Salary(0));
+END;
+
+--(Team principal max salary)
+
+BEGIN
+  DBMS_OUTPUT.PUT_LINE(Max_Salary(1));
+END;
 
 
 CREATE OR REPLACE PROCEDURE display_top_players IS
@@ -406,7 +523,12 @@ BEGIN
     CLOSE top_players_cur;
 END;
 /
+--This uses a cursor
+--to iterate over top 3 players sorted by performance.
 
+BEGIN
+  display_top_players;
+END;
 
 CREATE OR REPLACE TRIGGER update_season_points_player
 AFTER INSERT ON standings
@@ -430,6 +552,19 @@ BEGIN
     );
 END;
 /
+--These triggers automatically update player 
+--and team points whenever a new race result is inserted.
+-- This ensures data consistency without manual updates.
+
+INSERT INTO standings (player_points, player_id, race_id)
+VALUES (25, 8568, 999);
+
+SELECT season_point FROM player WHERE FIA_SUPER_LICENSE_NO = 8568;
+
+SELECT season_points FROM team 
+WHERE team_id = (SELECT team_id FROM player WHERE FIA_SUPER_LICENSE_NO = 8568);
+
+
 SET SERVEROUTPUT ON;
 
 BEGIN
@@ -437,5 +572,3 @@ BEGIN
 END;
 /
 
-
- 
